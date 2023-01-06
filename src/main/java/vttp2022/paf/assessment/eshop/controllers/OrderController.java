@@ -102,12 +102,12 @@ public class OrderController {
 
 		System.out.println(name);
 
-		
+		JsonObject jo = orderRepo.getTotalDispatchedPendingInRepo(name);
 
 		return ResponseEntity
 			.status(HttpStatus.OK)
 			.contentType(MediaType.APPLICATION_JSON)
-			.body("arrBuilder");
+			.body(jo.toString());
 	}
 
 }

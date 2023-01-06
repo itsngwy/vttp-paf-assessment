@@ -7,12 +7,14 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 import vttp2022.paf.assessment.eshop.models.Customer;
 import vttp2022.paf.assessment.eshop.models.LineItem;
 import vttp2022.paf.assessment.eshop.models.Order;
@@ -75,7 +77,19 @@ public class OrderRepository {
 		return os;
 	}
 
-	public void getTotalDispatchedPendingInRepo(String name) {
+	public JsonObject getTotalDispatchedPendingInRepo(String name) {
+
+		SqlRowSet rs = jdbcTemplate.queryForRowSet(SQL_SELECT_TOTAL_D_P, name);
+
+		JsonObjectBuilder job = Json.createObjectBuilder();
+		job.add("name", name);
+
+		rs.next();
+		job.add("dispatched", rs.getString("count"));
 		
+		rs.next();
+		job.add("pending", rs.getString("count"));
+
+		return job.build();
 	}
 }

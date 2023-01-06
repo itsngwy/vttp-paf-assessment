@@ -85,10 +85,10 @@ public class OrderRepository {
 		job.add("name", name);
 
 		rs.next();
-		job.add("dispatched", rs.getString("count"));
+		job.add("pending", rs.getString("count"));
 		
 		rs.next();
-		job.add("pending", rs.getString("count"));
+		job.add("dispatched", rs.getString("count"));
 
 		return job.build();
 	}

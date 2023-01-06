@@ -8,11 +8,14 @@ create table eshop.customers (
     primary key(name)
 );
 
-LOAD DATA LOCAL INFILE '/vttp2022/eshop/database/data.csv' 
-	INTO TABLE eshop.customers 
-	FIELDS TERMINATED BY ':' 
-	LINES TERMINATED BY '\n'
-	IGNORE 1 ROWS;
+INSERT eshop.customers
+	from '/vttp2022/eshop/database/data.csv'
+    with 
+    (
+		FORMAT='CSV',
+        FIRSTROW=2,
+        fieldterminator = ':'
+	)
 
 create table eshop.order (
 
